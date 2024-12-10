@@ -1,0 +1,67 @@
+#include <iostream>
+#include <string>
+
+// funcion para obtener la primera vocal interna de una cadena de texto
+char obtenerPrimerVocalInterna(const std::string& str) {
+    for (size_t i= 1; i < str.length (); ++i) {
+        char c= str[i];
+        if (c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U')
+        
+        return c;
+    }
+    return 'X'; // si no se encuentra ninguna vocal interna, se usa una 'X'
+}
+// funcion principal para calular el RFC
+std::string calcularRFC(const std::string& nombre, const std::string& apellidoPaterno, const std::string& apellidoMaterno, const std::string& fechaNacimiento){
+    std::string rfc;
+    
+    // se obtiene la letra inicial y la primera vocal interna dell apellidoPaterno 
+    char letraInicial = apellidoPaterno[0];
+    char PrimerVocalInterna = obtenerPrimerVocalInterna(apellidoPaterno);
+    
+    // se obtiene la iniial del apellido materno o se usa un 'X' si no hay 
+    char inicialAapellidMaterno =(!apellidoMaterno.empty()) ? apellidoMaterno[0] : 'X';
+    
+    // se obtiene la inicial del primer nombre o se usa una 'X' si no hay
+    char inicialNombre = nombre[0];
+    
+    // se obtienen los dos ultimos digitos del año de fechaNacimiento
+    std::string año = fechaNacimiento.substr(2,2);
+    
+    // se obtiene el mes y el dia de fechaNacimiento
+    std::string mes = fechaNacimiento.substr(5, 2);
+    std::string dia = fechaNacimiento.substr(8, 2);
+    
+    // se construye el rfc
+    rfc += letraInicial;
+    rfc += PrimerVocalInterna;
+    rfc += inicialAapellidMaterno;
+    rfc += inicialNombre;
+    rfc += año;
+    rfc += mes;
+    rfc += dia;
+    return rfc;
+}
+
+int main(){
+    std::string nombre,apellidoPaterno,apellidoMaterno,fechaNacimiento;
+    
+    std::cout << "ingrese el nombre:";
+    std::getline(std::cin, nombre);
+    
+    std::cout <<"ingrese el apellido paterno: ";
+    std::getline(std::cin, apellidoPaterno);
+    
+    std::cout << "ingresa el apellido Materno: (si no tiene, presione la tecla enter): ";
+    std::getline(std::cin, apellidoMaterno);
+    
+    std::getline(std::cin, apellidoMaterno);
+    std::cout << " ingrese la fecha de nacimiento (YYYY-MM-DD): ";
+    std::getline(std::cin, fechaNacimiento);
+    
+    std::string rfc = calcularRFC(nombre,apellidoPaterno,apellidoMaterno,fechaNacimiento);
+    std::cout << "RFC:" << rfc << std::endl;
+    
+    return 0;
+    
+}
